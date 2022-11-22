@@ -1,0 +1,17 @@
+note over browser:
+user creates note
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+note over server:
+new note data added to JSON-data
+end note
+server-->browser: HTTP 201 Created status code
+note over browser:
+browser does not reload after response.
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server-->browser: [{content: 'test', date: '2022-11-22T07:41:11.996Z'}, ...]
+
+note over browser:
+browser executes the event handler
+that renders notes to display
+end note
