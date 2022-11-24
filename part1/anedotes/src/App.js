@@ -10,10 +10,14 @@ const App = () => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.'
   ]
-   
+
+  const Button = ({ handleClick, text }) => (
+    <button onClick={handleClick}>{text}</button>
+  );
+  
   const [selected, setSelected] = useState(0);
   const [points, setPoints] = useState(new Array(anecdotes.length).fill(0));
-
+  const highestVoted = points.indexOf(Math.max(...points));
 
 
   const handleClickNext = () => {
@@ -22,17 +26,21 @@ const App = () => {
   };
 
   const voteForAnecdote = () => {
-    let newPoints = {...points};
+    const newPoints = [...points];
     newPoints[selected] += 1;
     setPoints(newPoints);
   };
 
   return (
     <div>
-      <h2>{anecdotes[selected]}</h2>
+      <h2>Anecdote of the Day</h2>
+      <p>{anecdotes[selected]}</p>
       <p>has {points[selected]} points</p>
-      <button onClick={() => voteForAnecdote()}>Vote</button>
-      <button onClick={() =>handleClickNext()}>Next Anecdote</button>
+      <Button handleClick={() => voteForAnecdote()} text= "Vote" />
+      <Button handleClick={() => handleClickNext()} text = "Next Anecdote" />
+      <h2>Most Voted Anecdote</h2>
+      <p>{anecdotes[highestVoted]}</p>
+      <p>has {points[highestVoted]} votes</p>
     </div>
   );
 };
