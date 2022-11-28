@@ -14,12 +14,13 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault()
     const nameObject = {
-      name: newName,
-      date: new Date().toISOString(),
-      id: persons.length + 1,
+      name: newName
     }
-    setPersons(persons.concat(nameObject))
-    setNewName('')
+
+    if (persons.some(person => person.name === newName)) {
+        alert(`${newName} already exists`)
+      } else { setPersons(persons.concat(nameObject))
+    setNewName('') }
 };
   return (
     <div>
