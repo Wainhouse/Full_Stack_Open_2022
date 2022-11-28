@@ -13,14 +13,6 @@ const Content = ({ parts }) => {
     );
   };
 
-const Total = ({ parts }) => {
-    return (
-      <>
-          <p>Number of exercises {parts.reduce((acc, part) => acc + part.exercises, 0)}</p>
-      </>
-    );
-  };  
-
 const Course = ({ course }) => {
 
     return (
@@ -28,7 +20,6 @@ const Course = ({ course }) => {
         <div>
        <Header name={course.name}/>
        <Content parts={course.parts} />
-       <Total parts={course.parts}/>
         </div>
 
     );
