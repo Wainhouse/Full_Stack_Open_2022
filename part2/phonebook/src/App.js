@@ -1,36 +1,44 @@
-import { useState } from 'react'
-import Persons from './components/Persons'
+import { useState } from "react";
+import Persons from "./components/Persons";
 
 const App = () => {
-
-  const [persons, setPersons] = useState([{ name: "Arto Hellas" }]) 
-  const [newName, setNewName] = useState('')
+  const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
+  const [newName, setNewName] = useState("");
+  const [newNumber, setNewNumber] = useState("");
 
   const handlePersonChange = (event) => {
-    console.log(event.target.value)
-    setNewName(event.target.value)
+    console.log(event.target.value);
+    setNewName(event.target.value);
+    
+  };
+
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value);
   };
 
   const addPerson = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     const nameObject = {
-      name: newName
-    }
+      name: newName,
+      number: newNumber,
+    };
 
-    if (persons.some(person => person.name === newName)) {
-        alert(`${newName} already exists`)
-      } else { setPersons(persons.concat(nameObject))
-    setNewName('') }
-};
+    if (persons.some((person) => person.name === newName)) {
+      alert(`${newName} already exists`);
+    } else {
+      setPersons(persons.concat(nameObject));
+      setNewName("");
+      setNewNumber("");
+    }
+  };
   return (
     <div>
       <h2>Phonebook</h2>
       <form onSubmit={addPerson}>
         <div>
-          name: <input 
-                 value={newName}
-                 onChange={handlePersonChange}
-                    />
+          name: <input value={newName} onChange={handlePersonChange} />
+          <br/>
+          number: <input value={newNumber} onChange={handleNumberChange} />
         </div>
         <div>
           <button type="submit">add</button>
@@ -38,10 +46,10 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       {persons.map((person) => (
-          <Persons key={person.name} person={person} />
-        ))}
+        <Persons key={person.name} person={person} number={newNumber}/>
+      ))}
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
