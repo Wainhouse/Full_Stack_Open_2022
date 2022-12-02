@@ -45,9 +45,8 @@ function App() {
           <CountriesInfo country={countriesSearch[0]} />
         ) : null}
         <Country
-        // note to self: These references need to be remembered.. set.. is not a function
           countriesSearch={countriesSearch}
-          setCountriesSearch={setCountriesSearch}
+          setFilterCountry={setFilterCountry}
         />
       </div>
     </>
