@@ -1,9 +1,11 @@
 const Country = ( {countriesSearch, setCountriesSearch} ) => {
+    if (countriesSearch.length === 1) return null;
+
+
+   
     return countriesSearch.map((country) => (
        <div key={country.name.official}>
-        {/* Name of the country */}
          {country.name.common}{" "}
-         {/* button which uses onClick to view the country's info */}
          <button onClick={() => setCountriesSearch([country])}>show</button>
        </div>
      ));

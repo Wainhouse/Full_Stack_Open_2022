@@ -46,7 +46,7 @@ function App() {
         ) : null}
         <Country
           countriesSearch={countriesSearch}
-          setCountriesSearch={setCountriesSearch}
+          setFilterCountry={setFilterCountry}
         />
       </div>
     </>

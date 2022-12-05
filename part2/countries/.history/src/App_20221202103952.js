@@ -21,7 +21,7 @@ function App() {
     });
   }, []);
 
-  console.log("render", country.length, "notes");
+  
   // function to search API data
   const handleSearch = (event) => {
     const search = event.target.value;
@@ -46,7 +46,7 @@ function App() {
         ) : null}
         <Country
           countriesSearch={countriesSearch}
-          setCountriesSearch={setCountriesSearch}
+          setFilterCountry={setFilterCountry}
         />
       </div>
     </>

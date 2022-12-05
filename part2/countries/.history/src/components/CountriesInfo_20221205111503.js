@@ -1,7 +1,5 @@
 import React from "react";
 import '../index.css'
-import { Weather } from "./Weather";
-
 export const CountriesInfo = ({ country }) => {
   return (
     <>
@@ -19,7 +17,10 @@ export const CountriesInfo = ({ country }) => {
           ))}
         <img src={country.flags.png} alt={`${country.name.common}`} />
       </ul>
-      <Weather capital={country.capital}/>
+      <div>
+            <h2> Weather in ${country.name} </h2>
+
+      </div>
       </div>
     </>
   );

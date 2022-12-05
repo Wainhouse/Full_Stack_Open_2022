@@ -14,14 +14,12 @@ function App() {
 
   // UseEffect to fetch from API
   useEffect(() => {
-    console.log("effect");
     axios.get("https://restcountries.com/v3.1/all").then((response) => {
-      console.log("promise fulfilled");
       setFilterCountry(response.data);
     });
   }, []);
 
-  console.log("render", country.length, "notes");
+
   // function to search API data
   const handleSearch = (event) => {
     const search = event.target.value;
@@ -41,13 +39,7 @@ function App() {
         <input value={country} onChange={handleSearch} />
       </div>
       <div>
-        {countriesSearch.length === 1 ? (
           <CountriesInfo country={countriesSearch[0]} />
-        ) : null}
-        <Country
-          countriesSearch={countriesSearch}
-          setCountriesSearch={setCountriesSearch}
-        />
       </div>
     </>
   );
