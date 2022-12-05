@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const Weather = ({ capital }) => {
     const [ weathers, setWeathers ] = useState([]);
-    const API_KEY = process.env.REACT_APP_API_KEY;
+    const API_KEY = "4f809eed8ffe521f7abb008616e843b7";
     const [ weatherIcon, setWeatherIcon] = useState("");
     const temp = Math.round(weathers.main?.temp - 273.15)
     
@@ -27,4 +27,3 @@ export const Weather = ({ capital }) => {
     </>
   )
 }
-
