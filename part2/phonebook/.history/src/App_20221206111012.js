@@ -15,8 +15,8 @@ const App = () => {
     personsService
       .getAll()
       .then(initialPersons => {
-        setPersons(initialPersons);
-      });
+        setPersons(initialPersons)
+      })
   }, []);
   
 
@@ -24,13 +24,14 @@ const App = () => {
     event.preventDefault();
     const nameObject = {
       name: newName,
-      number: newNumber
-    };
+      number: newNumber,
+      id: persons.length + 1,
+    }
      
     personsService
       .create(nameObject)
-      .then(returnedAddPerson => {
-        setPersons(persons.concat(returnedAddPerson))
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNewNumber('')
       })
@@ -68,7 +69,7 @@ const App = () => {
 
   return (
     <>
-      <h2>Phone-book</h2>
+      <h2>Phonebook</h2>
       <Search
       filterName={filterName}
       handleSearch={handleSearch}/>

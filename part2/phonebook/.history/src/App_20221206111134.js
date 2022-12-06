@@ -15,8 +15,8 @@ const App = () => {
     personsService
       .getAll()
       .then(initialPersons => {
-        setPersons(initialPersons);
-      });
+        setPersons(initialPersons)
+      })
   }, []);
   
 
@@ -28,7 +28,7 @@ const App = () => {
     };
      
     personsService
-      .create(nameObject)
+      .create(addPerson)
       .then(returnedAddPerson => {
         setPersons(persons.concat(returnedAddPerson))
         setNewName('')

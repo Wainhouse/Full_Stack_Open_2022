@@ -17,7 +17,7 @@ const App = () => {
       .then(initialPersons => {
         setPersons(initialPersons);
       });
-  }, []);
+  }, [personsService]);
   
 
   const addPerson = (event) => {

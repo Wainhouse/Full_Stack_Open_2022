@@ -2,50 +2,25 @@ import { useState, useEffect } from "react";
 import Persons from "./components/Persons";
 import { Form } from "./components/Form";
 import { Search } from "./components/Search";
-import personsService from './services/Persons'
+import axios from "axios";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filterName, setFilterName] = useState("");
-  const [personsSearch, setPersonsSearch] = useState([]);
+  const [personsSearch, setPersonsSearch] = useState(persons);
 
   useEffect(() => {
-    personsService
-      .getAll()
-      .then(initialPersons => {
-        setPersons(initialPersons);
-      });
-  }, []);
-  
-
-  const addPerson = (event) => {
-    event.preventDefault();
-    const nameObject = {
-      name: newName,
-      number: newNumber
-    };
-     
-    personsService
-      .create(nameObject)
-      .then(returnedAddPerson => {
-        setPersons(persons.concat(returnedAddPerson))
-        setNewName('')
-        setNewNumber('')
+    console.log('effect')
+    axios
+      .get('http://localhost:3002/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        setPersons(response.data)
       })
-    
-
-    if (persons.some((person) => person.name === newName)) {
-      alert(`${newName} already exists`);
-    } else {
-      setPersons(persons.concat(nameObject));
-      setPersonsSearch(persons.concat(nameObject));
-      setNewName("");
-      setNewNumber("");
-    }
-  };
-
+  }, [])
+  console.log('render', persons.length, 'notes')
 
   const handlePersonChange = (event) => {
     console.log(event.target.value);
@@ -65,10 +40,25 @@ const App = () => {
       );
   };
 
+  const addPerson = (event) => {
+    event.preventDefault();
+    const nameObject = {
+      name: newName,
+      number: newNumber,
+    };
 
+    if (persons.some((person) => person.name === newName)) {
+      alert(`${newName} already exists`);
+    } else {
+      setPersons(persons.concat(nameObject));
+      setPersonsSearch(persons.concat(nameObject));
+      setNewName("");
+      setNewNumber("");
+    }
+  };
   return (
-    <>
-      <h2>Phone-book</h2>
+    <div>
+      <h2>Phonebook</h2>
       <Search
       filterName={filterName}
       handleSearch={handleSearch}/>
@@ -84,7 +74,7 @@ const App = () => {
         <Persons key={person.name} person={person} number={newNumber}/>
         
       ))}
-    </>
+    </div>
   );
 };
 

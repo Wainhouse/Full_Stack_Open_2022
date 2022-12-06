@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Persons from "./components/Persons";
 import { Form } from "./components/Form";
 import { Search } from "./components/Search";
+import axios from "axios";
 import personsService from './services/Persons'
 
 const App = () => {
@@ -15,22 +16,27 @@ const App = () => {
     personsService
       .getAll()
       .then(initialPersons => {
-        setPersons(initialPersons);
-      });
-  }, []);
+        setPersons(initialPersons)
+    axios
+      .get('http://localhost:3002/persons')
+      .then(response => {
+        setPersons(response.data)
+      })
+  }, [])})
   
 
   const addPerson = (event) => {
     event.preventDefault();
     const nameObject = {
       name: newName,
-      number: newNumber
-    };
+      number: newNumber,
+      id: persons.length + 1,
+    }
      
     personsService
       .create(nameObject)
-      .then(returnedAddPerson => {
-        setPersons(persons.concat(returnedAddPerson))
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNewNumber('')
       })
@@ -68,7 +74,7 @@ const App = () => {
 
   return (
     <>
-      <h2>Phone-book</h2>
+      <h2>Phonebook</h2>
       <Search
       filterName={filterName}
       handleSearch={handleSearch}/>
