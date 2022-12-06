@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import People from "./components/People";
+import Persons from "./components/Persons";
 import { Form } from "./components/Form";
 import { Search } from "./components/Search";
 import personsService from './services/Persons'
@@ -20,11 +20,9 @@ const App = () => {
       });
   }, []);
   
-  const deletePerson = (id, name) => {
+  const deletePerson = (name, id) => {
     if (window.confirm(`Delete ${name}?`)) {
-      personsService
-        .deleteRequest(id)
-        .then((response) => {
+      personsService.remove(id).then((response) => {
         const updatedPersons = persons.filter((person) => person.id !== id);
         setPersons(updatedPersons);
         setPersonsSearch(updatedPersons);
@@ -92,7 +90,10 @@ const App = () => {
       handleNumberChange = {handleNumberChange}
       />
       <h2>Numbers</h2>
-        <People personsSearch={personsSearch} deletePerson={deletePerson}/>
+      {personsSearch.map((person) => (
+        <Persons key={person.name} person={person} number={newNumber}/>
+        
+      ))}
     </>
   );
 };

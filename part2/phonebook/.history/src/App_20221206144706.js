@@ -22,9 +22,7 @@ const App = () => {
   
   const deletePerson = (id, name) => {
     if (window.confirm(`Delete ${name}?`)) {
-      personsService
-        .deleteRequest(id)
-        .then((response) => {
+      personsService.remove(id).then((response) => {
         const updatedPersons = persons.filter((person) => person.id !== id);
         setPersons(updatedPersons);
         setPersonsSearch(updatedPersons);
@@ -92,7 +90,9 @@ const App = () => {
       handleNumberChange = {handleNumberChange}
       />
       <h2>Numbers</h2>
-        <People personsSearch={personsSearch} deletePerson={deletePerson}/>
+      {personsSearch.map((person) => (
+        <People key={person.name} person={person} number={newNumber} deletePerson={deletePerson}/>))
+        }
     </>
   );
 };
