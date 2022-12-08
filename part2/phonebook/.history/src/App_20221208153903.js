@@ -25,7 +25,7 @@ const App = () => {
   useEffect(() => {
     setTimeout(() => {
       setErrorMessage(null);
-    }, 8000);
+    }, 5000);
   }, [errorMessage]);
 
   const deletePerson = (id, name) => {
@@ -45,15 +45,14 @@ const App = () => {
       number: newNumber,
     };
 
-    const currentObject = persons.filter(
+    const currentName = persons.filter(
       (person) => person.name === nameObject.name
     );
 
-    if (currentObject.length === 0) {
+    if (currentName.length === 0) {
       personsService.create(nameObject).then((returnedAddPerson) => {
         setPersons(persons.concat(returnedAddPerson));
         setPersonsSearch(persons.concat(returnedAddPerson));
-        setErrorMessage(`Added ${nameObject.name}`)
       });
     } else {
       if (
@@ -76,7 +75,6 @@ const App = () => {
           });
         setNewName("");
         setNewNumber("");
-        setErrorMessage(`Updated ${oldContact.name}`)
       }
     }
   };

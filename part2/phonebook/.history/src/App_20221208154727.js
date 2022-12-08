@@ -25,7 +25,7 @@ const App = () => {
   useEffect(() => {
     setTimeout(() => {
       setErrorMessage(null);
-    }, 8000);
+    }, 7500);
   }, [errorMessage]);
 
   const deletePerson = (id, name) => {

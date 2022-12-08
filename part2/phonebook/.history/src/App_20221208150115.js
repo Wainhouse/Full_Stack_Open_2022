@@ -3,7 +3,6 @@ import People from "./components/People";
 import { Form } from "./components/Form";
 import { Search } from "./components/Search";
 import personsService from "./services/Persons";
-import Notification from './components/Notification';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,9 +10,6 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filterName, setFilterName] = useState("");
   const [personsSearch, setPersonsSearch] = useState([]);
-  const [errorMessage, setErrorMessage] = useState(null)
-
-
 
   useEffect(() => {
     personsService.getAll().then((initialPersons) => {
@@ -22,19 +18,13 @@ const App = () => {
     });
   }, []);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setErrorMessage(null);
-    }, 8000);
-  }, [errorMessage]);
-
   const deletePerson = (id, name) => {
     if (window.confirm(`Delete ${name}?`)) {
       personsService.deleteRequest(id).then((response) => {
         const updatedPersons = persons.filter((person) => person.id !== id);
         setPersons(updatedPersons);
         setPersonsSearch(updatedPersons);
-      })
+      });
     }
   };
 
@@ -45,15 +35,11 @@ const App = () => {
       number: newNumber,
     };
 
-    const currentObject = persons.filter(
-      (person) => person.name === nameObject.name
-    );
-
-    if (currentObject.length === 0) {
+    if (nameObject.newName === 0) {
       personsService.create(nameObject).then((returnedAddPerson) => {
         setPersons(persons.concat(returnedAddPerson));
-        setPersonsSearch(persons.concat(returnedAddPerson));
-        setErrorMessage(`Added ${nameObject.name}`)
+        setNewName("");
+        setNewNumber("");
       });
     } else {
       if (
@@ -76,7 +62,6 @@ const App = () => {
           });
         setNewName("");
         setNewNumber("");
-        setErrorMessage(`Updated ${oldContact.name}`)
       }
     }
   };
@@ -101,7 +86,6 @@ const App = () => {
   return (
     <>
       <h2>Phone-book</h2>
-      <Notification message={errorMessage} />
       <Search filterName={filterName} handleSearch={handleSearch} />
       <Form
         addPerson={addPerson}

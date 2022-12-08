@@ -11,7 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filterName, setFilterName] = useState("");
   const [personsSearch, setPersonsSearch] = useState([]);
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState('some error happened...')
 
 
 
@@ -21,12 +21,6 @@ const App = () => {
       setPersonsSearch(initialPersons);
     });
   }, []);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setErrorMessage(null);
-    }, 8000);
-  }, [errorMessage]);
 
   const deletePerson = (id, name) => {
     if (window.confirm(`Delete ${name}?`)) {
@@ -45,15 +39,11 @@ const App = () => {
       number: newNumber,
     };
 
-    const currentObject = persons.filter(
-      (person) => person.name === nameObject.name
-    );
-
-    if (currentObject.length === 0) {
+    if (nameObject.newName === 0) {
       personsService.create(nameObject).then((returnedAddPerson) => {
         setPersons(persons.concat(returnedAddPerson));
-        setPersonsSearch(persons.concat(returnedAddPerson));
-        setErrorMessage(`Added ${nameObject.name}`)
+        setNewName("");
+        setNewNumber("");
       });
     } else {
       if (
@@ -76,7 +66,6 @@ const App = () => {
           });
         setNewName("");
         setNewNumber("");
-        setErrorMessage(`Updated ${oldContact.name}`)
       }
     }
   };

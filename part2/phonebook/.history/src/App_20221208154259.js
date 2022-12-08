@@ -25,7 +25,7 @@ const App = () => {
   useEffect(() => {
     setTimeout(() => {
       setErrorMessage(null);
-    }, 8000);
+    }, 5000);
   }, [errorMessage]);
 
   const deletePerson = (id, name) => {
@@ -76,7 +76,7 @@ const App = () => {
           });
         setNewName("");
         setNewNumber("");
-        setErrorMessage(`Updated ${oldContact.name}`)
+        setErrorMessage(` Updated ${oldContact.name} `)
       }
     }
   };
