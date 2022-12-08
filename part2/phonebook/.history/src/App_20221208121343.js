@@ -10,6 +10,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filterName, setFilterName] = useState("");
   const [personsSearch, setPersonsSearch] = useState([]);
+  const [notifyMessage, setNotifyMessage] = useState(null);
 
   useEffect(() => {
     personsService.getAll().then((initialPersons) => {
@@ -35,37 +36,48 @@ const App = () => {
       number: newNumber,
     };
 
-    if (nameObject.newName === 0) {
-      personsService.create(nameObject).then((returnedAddPerson) => {
-        setPersons(persons.concat(returnedAddPerson));
-        setNewName("");
-        setNewNumber("");
-      });
-    } else {
+    setNewName("");
+    setNewNumber("");
+
+    const alreadyExistingContact = persons.find(
+      (person) => person.name.trim() === nameObject.name
+    );
+    if (alreadyExistingContact) {
       if (
         window.confirm(
-          `${newName.trim()} is already added to phone-book, replace the old number with a new one?`
+          `${nameObject.name}  already exists, update ${nameObject.name}'s number with new number?`
         )
       ) {
-        const oldContact = persons.find(
+        const previousContact = persons.find(
           ({ name }) => name.trim() === newName.trim()
         );
-        console.log(oldContact.id);
+
         personsService
-          .updateRequest(oldContact.id, { ...oldContact, number: newNumber })
-          .then((response) => {
+          .updateRequest(alreadyExistingContact.id, {
+            ...alreadyExistingContact,
+            number: newNumber,
+          })
+          .then((responseContact) => {
             setPersons(
               persons.map((cont) =>
-                cont.id !== oldContact.id ? cont : response
+                cont.id !== alreadyExistingContact.id ? cont : responseContact
               )
             );
           });
         setNewName("");
         setNewNumber("");
       }
+
+      return;
     }
+
+    personsService.create(nameObject).then((returnedAddPerson) => {
+      setPersons(persons.concat(returnedAddPerson));
+      setNewName("");
+      setNewNumber("");
+    });
   };
-  
+
   const handlePersonChange = (event) => {
     console.log(event.target.value);
     setNewName(event.target.value);
@@ -82,7 +94,6 @@ const App = () => {
       persons.filter((person) => person.name.toLowerCase().includes(search))
     );
   };
-
   return (
     <>
       <h2>Phone-book</h2>

@@ -10,6 +10,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filterName, setFilterName] = useState("");
   const [personsSearch, setPersonsSearch] = useState([]);
+  const [notifyMessage, setNotifyMessage] = useState(null);
 
   useEffect(() => {
     personsService.getAll().then((initialPersons) => {
@@ -30,42 +31,53 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
-    const nameObject = {
-      name: newName,
-      number: newNumber,
-    };
+    const nameExist = persons
+    .map(({ name }) => name.trim())
+    .includes(newName.trim());
 
-    if (nameObject.newName === 0) {
-      personsService.create(nameObject).then((returnedAddPerson) => {
-        setPersons(persons.concat(returnedAddPerson));
-        setNewName("");
-        setNewNumber("");
-      });
-    } else {
+    setNewName("");
+    setNewNumber("");
+
+    if (nameExist) {
       if (
         window.confirm(
-          `${newName.trim()} is already added to phone-book, replace the old number with a new one?`
+          `${newName.name}  already exists, update ${newName.name}'s number with new number?`
         )
       ) {
-        const oldContact = persons.find(
+        const previousContact = persons.find(
           ({ name }) => name.trim() === newName.trim()
         );
-        console.log(oldContact.id);
+
         personsService
-          .updateRequest(oldContact.id, { ...oldContact, number: newNumber })
-          .then((response) => {
+          .updateRequest(previousContact.id, {
+            ...previousContact,
+            number: newNumber,
+          })
+          .then((responseContact) => {
             setPersons(
               persons.map((cont) =>
-                cont.id !== oldContact.id ? cont : response
+                cont.id !== previousContact.id ? cont : responseContact
               )
             );
           });
         setNewName("");
         setNewNumber("");
       }
+
+      return;
     }
+    const newPerson = {
+      name: newName.trim(),
+      number: newNumber,
+    };
+
+    personsService.create(newPerson).then((returnedNewPerson) => {
+      setPersons(persons.concat(returnedNewPerson));
+      setNewName("");
+      setNewNumber("");
+    });
   };
-  
+
   const handlePersonChange = (event) => {
     console.log(event.target.value);
     setNewName(event.target.value);
@@ -82,7 +94,6 @@ const App = () => {
       persons.filter((person) => person.name.toLowerCase().includes(search))
     );
   };
-
   return (
     <>
       <h2>Phone-book</h2>

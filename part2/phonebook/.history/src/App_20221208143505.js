@@ -28,6 +28,7 @@ const App = () => {
     }
   };
 
+  useEffect(() => {
   const addPerson = (event) => {
     event.preventDefault();
     const nameObject = {
@@ -65,7 +66,7 @@ const App = () => {
       }
     }
   };
-  
+}, [addPerson]);
   const handlePersonChange = (event) => {
     console.log(event.target.value);
     setNewName(event.target.value);
