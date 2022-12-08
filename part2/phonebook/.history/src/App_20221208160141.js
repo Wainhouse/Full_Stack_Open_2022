@@ -63,7 +63,7 @@ const App = () => {
       ) {
         const oldContact = persons.find(
           ({ name }) => name.trim() === newName.trim()
-        )
+        );
         personsService
           .updateRequest(oldContact.id, { ...oldContact, number: newNumber })
           .then((response) => {
@@ -72,14 +72,10 @@ const App = () => {
                 cont.id !== oldContact.id ? cont : response
               )
             );
-            setNewName("");
-            setNewNumber("");
-            setErrorMessage(`Updated ${oldContact.name}`)
-          }).catch((error) => {
-            setErrorMessage(
-              `Information of ${oldContact.name} has already been removed from the server`
-            );
-            })
+          });
+        setNewName("");
+        setNewNumber("");
+        setErrorMessage(`Updated ${oldContact.name}`)
       }
     }
   };
