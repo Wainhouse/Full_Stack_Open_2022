@@ -32,7 +32,8 @@ app.get('/', (request, response) => {
   })
 
   app.get('/info', (request, response) => {
-    response.send('<p>Phone-book has info for ' + persons.length + ' people</p><p>' + new Date() + '</p>')
+    response.send('<p>Phone-book has info for ' + persons.length + ' people</p>')
+    response.send('<p>' + new Date() + '</p>')
   })
   
   app.get('/api/persons', (request, response) => {
