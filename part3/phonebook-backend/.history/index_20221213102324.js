@@ -53,7 +53,7 @@ app.get('/', (request, response) => {
 
   app.get('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
-    const person = persons.find(person => person.id === id)
+    const person = persons.find(persons => persons.id === id)
 
     if (person) {
       response.json(person)
@@ -84,7 +84,7 @@ app.get('/', (request, response) => {
       id: generateId()
     }
   
-    persons = person.concat(person)
+    person = person.concat(person)
   
     response.json(person)
   })
@@ -99,7 +99,7 @@ app.get('/', (request, response) => {
 
   app.delete('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
-    persons = persons.filter(person => person.id !== id)
+    person = persons.filter(persons => person.id !== id)
 
     response.status(204).end()
   })
