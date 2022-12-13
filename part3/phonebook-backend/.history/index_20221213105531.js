@@ -79,12 +79,12 @@ app.get('/', (request, response) => {
       })
     }
 
-    const personExists = persons.find((person) => person.name === body.name)
-    //error handling
+    const personExists = persons.find((person) => person.name === body.name);
+  
     if (personExists) {
     return response.status(400).json({
       error: "name must be unique",
-    })
+    });
   }
 
     const person = {
