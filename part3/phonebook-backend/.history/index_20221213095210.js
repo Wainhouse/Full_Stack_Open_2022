@@ -23,26 +23,6 @@ let persons = [
     "id": 4,
     "name": "Mary Poppendieck", 
     "number": "39-23-6423122"
-  },
-  { 
-    "id": 5,
-    "name": "Jade Wainhouse", 
-    "number": "39-23-90345890"
-  },
-  { 
-    "id": 6,
-    "name": "Luke Skywalker", 
-    "number": "12-12-1212"
-  },
-  { 
-    "id": 7,
-    "name": "Anikin Skywalker", 
-    "number": "12-12-1212"
-  },
-  { 
-    "id": 8,
-    "name": " Jiajia", 
-    "number": "12-45-56457567"
   }
 ]
 
@@ -54,12 +34,6 @@ app.get('/', (request, response) => {
   app.get('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
     const person = persons.find(persons => persons.id === id)
-
-    if (person) {
-      response.json(person)
-    } else {
-      response.status(404).end()
-    }
   })
 
   const generateId = () => {
