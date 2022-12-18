@@ -39,36 +39,25 @@ app.get('/api/persons', (request, result) => {
 
 })
 
-app.get("/info", (request, response, next) => {
-  Person.find({})
-    .then((result) => {
-      response.send(
-        `<p>Phone-book has info for ${
-          result.length
-        } people</p><p>${new Date()}</p>`
-      )
-    })
-    .catch((error) => next(error))
-})
-
-app.get("/api/persons/:id", (request, response, next) => {
+app.get('/api/person/:id', (request, response, next) => {
   Person.findById(request.params.id)
-    .then((person) => {
+    .then(person => {
       if (person) {
-        response.json(person);
+        response.json(note)
       } else {
-        response.status(404).end();
+        response.status(404).end()
       }
     })
-    .catch((error) => next(error));
+    .catch(error => {
+      next(error)
+    })
 })
 
 app.put('/api/person/:id', (request, response, next) => {
-  const body = request.body;
 
   const person = {
-    name: body.name,
-    number: body.number,
+    content: request.content,
+    important: request.important,
   }
 
   Person.findByIdAndUpdate(request.params.id, person, { new: true })
@@ -96,39 +85,18 @@ app.post('/api/persons', (request, response) => {
 
 })
 
-app.get("/info", (request, response, next) => {
-  Person.find({})
-    .then((result) => {
-      response.send(
-        `<p>Phone-book has info for ${
-          result.length
-        } people</p><p>${new Date()}</p>`
-      )
-    })
-    .catch((error) => next(error))
-})
-
-app.delete("/api/persons/:id", (request, response, next) => {
-    Person.findByIdAndDelete(request.params.id)
-      .then((result) => {
-        response.status(204).end();
-      })
-      .catch((error) => next(error));
+app.get('/info', (request, response) => {
+    response.send('<p>Phone-book has info for ' + persons.length + ' people</p><p>' + new Date() + '</p>')
   })
 
-app.put("/api/persons/:id", (request, response, next) => {
-    const body = request.body;
-  
-    const person = {
-      name: body.name,
-      number: body.number,
-    }
-  
-    Person.findByIdAndUpdate(request.params.id, person, { new: true })
-      .then((updatedPerson) => {
-        response.json(updatedPerson);
+app.delete('/api/person/:id', (request, response, next) => {
+  console.log("first",request.params.id);
+    Person.findByIdAndRemove(request.params.id)
+    console.log("second",request.params.id);
+      .then(result => {
+        response.status(204).end()
       })
-      .catch((error) => next(error));
+      .catch(error => next(error))
   })
 
 const unknownEndpoint = (request, response) => {
