@@ -1,4 +1,6 @@
-require('dotenv').config()
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+  }
 const mongoose = require('mongoose')
 mongoose.set('strictQuery', false)
 
@@ -16,17 +18,9 @@ mongoose.connect(url)
 
 
   const personSchema = new mongoose.Schema({
-    name: {
-      type: String,
-      minLength: 3,
-      required: true,
-    },
-    number: {
-      type: String,
-      required: true,
-    },
-  }
-  )
+    name: String,
+    number: String,
+  })
 
   personSchema.set('toJSON', {
     transform: (document, returnedObject) => {
