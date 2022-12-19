@@ -1,4 +1,4 @@
-require('dotenv').config()
+require("dotenv").config();
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 
@@ -23,13 +23,13 @@ const phoneValidator = [
       }
       return true;
     },
-    message: "must be at least 8 digits",
+    errorMessage: "must be at least 8 digits",
   },
   {
     validator: function (v) {
       return /^\d{2,3}-\d+$/.test(v);
     },
-    message: `invalid phone number`,
+    errorMessage: `invalid phone number`,
   },
 ];
 

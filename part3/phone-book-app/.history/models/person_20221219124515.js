@@ -1,4 +1,4 @@
-require('dotenv').config()
+require("dotenv").config();
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 
@@ -42,6 +42,7 @@ const personSchema = new mongoose.Schema({
   number: {
     type: String,
     validate: phoneValidator,
+    minLength: 10,
     required: [true, "User phone number required"],
   },
 });
