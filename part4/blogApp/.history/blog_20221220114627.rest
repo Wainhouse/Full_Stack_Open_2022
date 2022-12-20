@@ -1,0 +1,8 @@
+POST http://localhost:3005/api/blogs
+
+{
+    "title": "Blog Application URL",
+  "author": "Luke Wainhouse",
+  "url": "http://localhost:3005/blogs/1",
+  "likes": 20
+}
