@@ -10,9 +10,9 @@ const totalLikes = (blogs) => {
 };
 
 const favoriteBlog = (blogs) => {
-  return blogs.reduce((prevNum, currNum) =>
-    prevNum.likes <= currNum.likes ? currNum : prevNum
-  );
+  return blogs.length === 0
+    ? 0
+    : blogs.max((n = 0, blog) => n + blog.likes, 0);
 };
 
 module.exports = {
