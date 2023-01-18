@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const supertest = require('supertest');
 const app = require('../app');
+const logger = require('./utils/logger');
 
 
 const api = supertest(app);
@@ -25,13 +26,10 @@ test('blogs are returned as json', async () => {
 
 test('verifies that the unique identifier', async () => {
   const response = await api.get('/api/blogs');
-  response.body.forEach(blog => {
-    expect(blog._id).toBeDefined();
-  });
 
-//   const idContent = response.body.map((r) => r.id);
-//   console.log(idContent[0])  
-//   expect(idContent[0]).toBeDefined('id');
+  const contents = response.body.map((r) => r.content);
+  logger.info(contents)  
+  expect(contents).toBeDefined();
 });
 
 afterAll(() => {

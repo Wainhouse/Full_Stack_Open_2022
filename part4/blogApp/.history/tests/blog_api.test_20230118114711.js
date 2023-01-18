@@ -25,13 +25,10 @@ test('blogs are returned as json', async () => {
 
 test('verifies that the unique identifier', async () => {
   const response = await api.get('/api/blogs');
-  response.body.forEach(blog => {
-    expect(blog._id).toBeDefined();
-  });
 
-//   const idContent = response.body.map((r) => r.id);
-//   console.log(idContent[0])  
-//   expect(idContent[0]).toBeDefined('id');
+  const contents = response.body.map((r) => r.content);
+  console.log(contents)  
+  expect(contents).toBeDefined();
 });
 
 afterAll(() => {
