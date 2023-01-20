@@ -9,10 +9,7 @@ const helper = require('./test_helper');
 
 beforeEach(async () => {
   await Blog.deleteMany({});
-
-  const blogObjects = helper.listOfBlogs.map((blog) => new Blog(blog));
-  const promiseArray = blogObjects.map((blog) => blog.save());
-  await Promise.all(promiseArray);
+  await Blog.insertMany(helper.initialBlogs);
 });
 
 test('blogs are returned as json', async () => {
@@ -81,9 +78,8 @@ test('verifies that blog likes are set to zero if not provided', async () => {
     .expect('Content-Type', /application\/json/);
 
   const blogsAtEnd = await helper.blogInDb();
-  const lastBlog = blogsAtEnd[blogsAtEnd.length -1]
   expect(blogsAtEnd).toHaveLength(helper.listOfBlogs.length + 1);
-  expect(lastBlog.likes).toBe(0);
+  expect(blogsAtEnd.length[blogsAtEnd.length - 1].likes).toBe(0);
 });
 
 afterAll(() => {

@@ -81,9 +81,8 @@ test('verifies that blog likes are set to zero if not provided', async () => {
     .expect('Content-Type', /application\/json/);
 
   const blogsAtEnd = await helper.blogInDb();
-  const lastBlog = blogsAtEnd[blogsAtEnd.length -1]
   expect(blogsAtEnd).toHaveLength(helper.listOfBlogs.length + 1);
-  expect(lastBlog.likes).toBe(0);
+  expect(blogsAtEnd.length[blogsAtEnd.length - 1]?.likes).toBe(0);
 });
 
 afterAll(() => {
