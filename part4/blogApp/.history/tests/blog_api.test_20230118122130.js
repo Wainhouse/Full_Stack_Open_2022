@@ -22,19 +22,14 @@ test('blogs are returned as json', async () => {
     .expect('Content-Type', /application\/json/);
 });
 
-test('verifies that the unique identifier', async () => {
-  const response = await api.get('/api/blogs');
-  response.body.forEach((blog) => {
-    expect(blog.id).toBeDefined();
-  });
-});
-
 test('a valid blog can be added ', async () => {
   const newBlogPost = {
+    _id: '8jd856uj4845ufe6di457rjd',
     title: 'Go Considered Harmful',
     author: ' W. Wainhouse',
     url: 'http://www.u.arizona.edu',
-    likes: 200,
+    likes: 5,
+    __v: 0,
   };
 
   await api
@@ -43,28 +38,22 @@ test('a valid blog can be added ', async () => {
     .expect(201)
     .expect('Content-Type', /application\/json/);
 
-  const blogsAtEnd = await helper.blogInDb();
+  const blogsAtEnd = await helper.notesInDb();
   expect(blogsAtEnd).toHaveLength(helper.listOfBlogs.length + 1);
+
+  const contents = blogsAtEnd.map((n) => n.content);
+  expect(contents).toContain('async/await simplifies making async calls');
 });
 
-test('a specific blog can be viewed', async () => {
-  const newBlogPost = {
-    title: 'specific blog',
-    author: ' W. Wainhouse',
-    url: 'http://www.u.specificblog.edu',
-    likes: 3,
-  };
-
-  await api
-    .post('/api/blogs')
-    .send(newBlogPost)
-    .expect(201)
-    .expect('Content-Type', /application\/json/);
-
-  const blogsAtEnd = await helper.blogInDb();
-  const specificBlog = blogsAtEnd.find((blog) => blog.title === 'specific' && blog.author === ' W. Wainhouse');
+test('verifies that the unique identifier', async () => {
   const response = await api.get('/api/blogs');
-  expect (response[response.length - 1]).toEqual(specificBlog);
+  response.body.forEach((blog) => {
+    expect(blog._id).toBeDefined();
+  });
+
+  //   const idContent = response.body.map((r) => r.id);
+  //   console.log(idContent[0])
+  //   expect(idContent[0]).toBeDefined('id');
 });
 
 afterAll(() => {

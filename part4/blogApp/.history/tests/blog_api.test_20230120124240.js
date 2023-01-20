@@ -64,7 +64,7 @@ test('a specific blog can be viewed', async () => {
   const blogsAtEnd = await helper.blogInDb();
   const specificBlog = blogsAtEnd.find((blog) => blog.title === 'specific' && blog.author === ' W. Wainhouse');
   const response = await api.get('/api/blogs');
-  expect (response[response.length - 1]).toEqual(specificBlog);
+  expect (response[response.length - 1].body).toEqual(specificBlog);
 });
 
 afterAll(() => {

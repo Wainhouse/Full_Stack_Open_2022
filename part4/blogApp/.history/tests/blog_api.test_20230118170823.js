@@ -29,6 +29,7 @@ test('verifies that the unique identifier', async () => {
   });
 });
 
+
 test('a valid blog can be added ', async () => {
   const newBlogPost = {
     title: 'Go Considered Harmful',
@@ -48,23 +49,20 @@ test('a valid blog can be added ', async () => {
 });
 
 test('a specific blog can be viewed', async () => {
-  const newBlogPost = {
-    title: 'specific blog',
-    author: ' W. Wainhouse',
-    url: 'http://www.u.specificblog.edu',
-    likes: 3,
-  };
+  const blogAtStart = await helper.blogInDb();
 
+  const blogToView = blogAtStart[blogAtStart.length - 1];
+  console.log('/api/blogs/',blogToView.id)
   await api
-    .post('/api/blogs')
-    .send(newBlogPost)
-    .expect(201)
+    .get('/api/blogs/')
+    .expect(200)
     .expect('Content-Type', /application\/json/);
+  
+  const processedBlogToView = JSON.parse(JSON.stringify(blogToView));
 
-  const blogsAtEnd = await helper.blogInDb();
-  const specificBlog = blogsAtEnd.find((blog) => blog.title === 'specific' && blog.author === ' W. Wainhouse');
-  const response = await api.get('/api/blogs');
-  expect (response[response.length - 1]).toEqual(specificBlog);
+  expect(processedBlogToView[blogToView.length - 1]).toEqual(blogToView);
+  console.log(processedBlogToView[blogToView.length - 1])
+  console.log(blogToView)
 });
 
 afterAll(() => {

@@ -1,6 +1,6 @@
 const blogRouter = require('express').Router();
 const Blog = require('../models/blog');
-//const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 
 blogRouter.get('/', (request, response) => {
@@ -25,6 +25,7 @@ blogRouter.post('/', (request, response, next) => {
     .save()
     .then((savedBlog) => {
       response.status(201).json(savedBlog);
+      mongoose.connection.close();
     })
     .catch((error) => next(error));
 });

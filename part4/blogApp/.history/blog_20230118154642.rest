@@ -1,0 +1,8 @@
+POST http://localhost:3006/api/blogs
+Content-Type: application/json
+{
+  "title": "Luke Wainhouse ",
+  "author": "Luke Wainhouse",
+  "url": "http://localhost:3005/blogs/2000",
+  "likes": 1
+}

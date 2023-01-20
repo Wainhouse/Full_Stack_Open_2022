@@ -10,7 +10,7 @@ blogRouter.get('/', (request, response) => {
   });
 });
 
-blogRouter.post('/', (request, response, next) => {
+blogRouter.post('/:id', (request, response, next) => {
   console.log('Post started');  
   const body = request.body;
 
