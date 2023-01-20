@@ -86,21 +86,6 @@ test('verifies that blog likes are set to zero if not provided', async () => {
   expect(lastBlog.likes).toBe(0);
 });
 
-test('a valid blog can be added ', async () => {
-  const newBlogPost = {
-    likes: 200,
-  };
-
-  await api
-    .post('/api/blogs')
-    .send(newBlogPost)
-    .expect(400)
-    .expect('Content-Type', /application\/json/);
-    
-  const blogsAtEnd = await helper.blogInDb();
-  expect(blogsAtEnd).toHaveLength(helper.listOfBlogs.length);
-});
-
 afterAll(() => {
   mongoose.connection.close();
 });

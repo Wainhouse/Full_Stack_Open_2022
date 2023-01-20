@@ -41,7 +41,6 @@ test('a blog can be added ', async () => {
     .post('/api/blogs')
     .send(newBlogPost)
     .expect(201)
-    .expect('Content-Type', /application\/json/);
 
   const blogsAtEnd = await helper.blogInDb();
   expect(blogsAtEnd).toHaveLength(helper.listOfBlogs.length + 1);

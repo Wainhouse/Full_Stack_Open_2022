@@ -88,6 +88,7 @@ test('verifies that blog likes are set to zero if not provided', async () => {
 
 test('a valid blog can be added ', async () => {
   const newBlogPost = {
+    author: ' W. Wainhouse',
     likes: 200,
   };
 
