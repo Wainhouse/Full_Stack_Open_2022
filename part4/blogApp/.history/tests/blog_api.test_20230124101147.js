@@ -26,7 +26,7 @@ describe('when there is initially some blogs saved', () => {
   test('all blogs are returned', async () => {
     const response = await api.get('/api/blogs');
 
-    expect(response.body).toHaveLength(helper.listOfBlogs.length);
+    expect(response.body).toHaveLength(helper.initialBlogs.length);
   });
 });
 
@@ -53,10 +53,9 @@ describe('viewing a specific blog', () => {
     expect(response[response.length - 1]).toEqual(specificBlog);
   });
 
-  test('backend status 400 if title and url are missing', async () => {
+  test('a valid blog can be added ', async () => {
     const newBlogPost = {
-      author: 'W. Wainhouse',
-      likes: 10,
+      likes: 200,
     };
 
     await api
@@ -67,30 +66,6 @@ describe('viewing a specific blog', () => {
 
     const blogsAtEnd = await helper.blogInDb();
     expect(blogsAtEnd).toHaveLength(helper.listOfBlogs.length);
-
-    const contents = blogsAtEnd.map((n) => n.title)
-    expect(contents).not.toContain('W. Wainhouse')
-  });
-
-  test('a valid blog can be added ', async () => {
-    const newBlogPost = {
-      title: 'Wadup',
-      author: 'Me',
-      url: 'https://www.Wadup.com',
-      likes: 1,
-    };
-
-    await api
-      .post('/api/blogs')
-      .send(newBlogPost)
-      .expect(201)
-      .expect('Content-Type', /application\/json/);
-
-    const blogsAtEnd = await helper.blogInDb();
-    expect(blogsAtEnd).toHaveLength(helper.listOfBlogs.length + 1);
-
-    const title = blogsAtEnd.map((r) => r.title);
-    expect(title).toContain('Wadup');
   });
 });
 
@@ -148,11 +123,11 @@ describe('deletion of a blog', () => {
 
     const blogsAtEnd = await helper.blogInDb();
 
-    expect(blogsAtEnd).toHaveLength(helper.listOfBlogs.length - 1);
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1);
 
-    const contents = blogsAtEnd.map((r) => r.title);
+    const contents = blogsAtEnd.map((r) => r.content);
 
-    expect(contents).not.toContain(blogToDelete.title);
+    expect(contents).not.toContain(blogsAtEnd.content);
   });
 });
 

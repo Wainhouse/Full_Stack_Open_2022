@@ -54,26 +54,21 @@ describe('viewing a specific blog', () => {
   });
 
   test('backend status 400 if title and url are missing', async () => {
-    const newBlogPost = {
-      author: 'W. Wainhouse',
-      likes: 10,
+    const newBlog = {
+      likes: 1,
     };
 
     await api
       .post('/api/blogs')
-      .send(newBlogPost)
-      .expect(400)
-      .expect('Content-Type', /application\/json/);
+      .send(newBlog)
+      .expect(400);
 
     const blogsAtEnd = await helper.blogInDb();
     expect(blogsAtEnd).toHaveLength(helper.listOfBlogs.length);
-
-    const contents = blogsAtEnd.map((n) => n.title)
-    expect(contents).not.toContain('W. Wainhouse')
   });
 
   test('a valid blog can be added ', async () => {
-    const newBlogPost = {
+    const newBlog = {
       title: 'Wadup',
       author: 'Me',
       url: 'https://www.Wadup.com',
@@ -82,7 +77,7 @@ describe('viewing a specific blog', () => {
 
     await api
       .post('/api/blogs')
-      .send(newBlogPost)
+      .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/);
 

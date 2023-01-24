@@ -23,10 +23,10 @@ describe('when there is initially some blogs saved', () => {
       .expect('Content-Type', /application\/json/);
   });
 
-  test('all blogs are returned', async () => {
-    const response = await api.get('/api/blogs');
+  test('all notes are returned', async () => {
+    const response = await api.get('/api/notes');
 
-    expect(response.body).toHaveLength(helper.listOfBlogs.length);
+    expect(response.body).toHaveLength(helper.initialNotes.length);
   });
 });
 
@@ -53,10 +53,9 @@ describe('viewing a specific blog', () => {
     expect(response[response.length - 1]).toEqual(specificBlog);
   });
 
-  test('backend status 400 if title and url are missing', async () => {
+  test('a valid blog can be added ', async () => {
     const newBlogPost = {
-      author: 'W. Wainhouse',
-      likes: 10,
+      likes: 200,
     };
 
     await api
@@ -67,30 +66,6 @@ describe('viewing a specific blog', () => {
 
     const blogsAtEnd = await helper.blogInDb();
     expect(blogsAtEnd).toHaveLength(helper.listOfBlogs.length);
-
-    const contents = blogsAtEnd.map((n) => n.title)
-    expect(contents).not.toContain('W. Wainhouse')
-  });
-
-  test('a valid blog can be added ', async () => {
-    const newBlogPost = {
-      title: 'Wadup',
-      author: 'Me',
-      url: 'https://www.Wadup.com',
-      likes: 1,
-    };
-
-    await api
-      .post('/api/blogs')
-      .send(newBlogPost)
-      .expect(201)
-      .expect('Content-Type', /application\/json/);
-
-    const blogsAtEnd = await helper.blogInDb();
-    expect(blogsAtEnd).toHaveLength(helper.listOfBlogs.length + 1);
-
-    const title = blogsAtEnd.map((r) => r.title);
-    expect(title).toContain('Wadup');
   });
 });
 
@@ -139,20 +114,20 @@ describe('addition of a new blog', () => {
   });
 });
 
-describe('deletion of a blog', () => {
+describe('deletion of a note', () => {
   test('succeeds with status code 204 if id is valid', async () => {
-    const blogsAtStart = await helper.blogInDb();
-    const blogToDelete = blogsAtStart[0];
+    const notesAtStart = await helper.notesInDb();
+    const noteToDelete = notesAtStart[0];
 
-    await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
+    await api.delete(`/api/notes/${noteToDelete.id}`).expect(204);
 
-    const blogsAtEnd = await helper.blogInDb();
+    const notesAtEnd = await helper.notesInDb();
 
-    expect(blogsAtEnd).toHaveLength(helper.listOfBlogs.length - 1);
+    expect(notesAtEnd).toHaveLength(helper.initialNotes.length - 1);
 
-    const contents = blogsAtEnd.map((r) => r.title);
+    const contents = notesAtEnd.map((r) => r.content);
 
-    expect(contents).not.toContain(blogToDelete.title);
+    expect(contents).not.toContain(noteToDelete.content);
   });
 });
 

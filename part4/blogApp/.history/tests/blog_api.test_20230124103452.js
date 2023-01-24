@@ -8,6 +8,7 @@ const Blog = require('../models/blog');
 const helper = require('./test_helper');
 
 beforeEach(async () => {
+
   await Blog.deleteMany({});
 
   const blogObjects = helper.listOfBlogs.map((blog) => new Blog(blog));
@@ -53,10 +54,9 @@ describe('viewing a specific blog', () => {
     expect(response[response.length - 1]).toEqual(specificBlog);
   });
 
-  test('backend status 400 if title and url are missing', async () => {
+  test('a valid blog can be added ', async () => {
     const newBlogPost = {
-      author: 'W. Wainhouse',
-      likes: 10,
+      likes: 200,
     };
 
     await api
@@ -67,30 +67,6 @@ describe('viewing a specific blog', () => {
 
     const blogsAtEnd = await helper.blogInDb();
     expect(blogsAtEnd).toHaveLength(helper.listOfBlogs.length);
-
-    const contents = blogsAtEnd.map((n) => n.title)
-    expect(contents).not.toContain('W. Wainhouse')
-  });
-
-  test('a valid blog can be added ', async () => {
-    const newBlogPost = {
-      title: 'Wadup',
-      author: 'Me',
-      url: 'https://www.Wadup.com',
-      likes: 1,
-    };
-
-    await api
-      .post('/api/blogs')
-      .send(newBlogPost)
-      .expect(201)
-      .expect('Content-Type', /application\/json/);
-
-    const blogsAtEnd = await helper.blogInDb();
-    expect(blogsAtEnd).toHaveLength(helper.listOfBlogs.length + 1);
-
-    const title = blogsAtEnd.map((r) => r.title);
-    expect(title).toContain('Wadup');
   });
 });
 

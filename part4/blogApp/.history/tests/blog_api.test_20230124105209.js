@@ -55,21 +55,17 @@ describe('viewing a specific blog', () => {
 
   test('backend status 400 if title and url are missing', async () => {
     const newBlogPost = {
-      author: 'W. Wainhouse',
+      author: ' W. Wainhouse',
       likes: 10,
     };
 
     await api
       .post('/api/blogs')
       .send(newBlogPost)
-      .expect(400)
-      .expect('Content-Type', /application\/json/);
+      .expect(400);
 
     const blogsAtEnd = await helper.blogInDb();
     expect(blogsAtEnd).toHaveLength(helper.listOfBlogs.length);
-
-    const contents = blogsAtEnd.map((n) => n.title)
-    expect(contents).not.toContain('W. Wainhouse')
   });
 
   test('a valid blog can be added ', async () => {

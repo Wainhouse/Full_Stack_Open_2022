@@ -53,10 +53,10 @@ describe('viewing a specific blog', () => {
     expect(response[response.length - 1]).toEqual(specificBlog);
   });
 
-  test('backend status 400 if title and url are missing', async () => {
+  test('a valid blog can be added ', async () => {
+    jest.setTimeout(10000);
     const newBlogPost = {
-      author: 'W. Wainhouse',
-      likes: 10,
+      likes: 200,
     };
 
     await api
@@ -67,30 +67,6 @@ describe('viewing a specific blog', () => {
 
     const blogsAtEnd = await helper.blogInDb();
     expect(blogsAtEnd).toHaveLength(helper.listOfBlogs.length);
-
-    const contents = blogsAtEnd.map((n) => n.title)
-    expect(contents).not.toContain('W. Wainhouse')
-  });
-
-  test('a valid blog can be added ', async () => {
-    const newBlogPost = {
-      title: 'Wadup',
-      author: 'Me',
-      url: 'https://www.Wadup.com',
-      likes: 1,
-    };
-
-    await api
-      .post('/api/blogs')
-      .send(newBlogPost)
-      .expect(201)
-      .expect('Content-Type', /application\/json/);
-
-    const blogsAtEnd = await helper.blogInDb();
-    expect(blogsAtEnd).toHaveLength(helper.listOfBlogs.length + 1);
-
-    const title = blogsAtEnd.map((r) => r.title);
-    expect(title).toContain('Wadup');
   });
 });
 
@@ -141,20 +117,20 @@ describe('addition of a new blog', () => {
 
 describe('deletion of a blog', () => {
   test('succeeds with status code 204 if id is valid', async () => {
-    const blogsAtStart = await helper.blogInDb();
-    const blogToDelete = blogsAtStart[0];
+    const blogsAtStart = await helper.blogInDb()
+    const blogToDelete = blogsAtStart[0]
 
-    await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
+    await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204)
 
-    const blogsAtEnd = await helper.blogInDb();
+    const blogsAtEnd = await helper.blogInDb()
 
-    expect(blogsAtEnd).toHaveLength(helper.listOfBlogs.length - 1);
+    expect(blogsAtEnd).toHaveLength(helper.listOfBlogs.length - 1)
 
-    const contents = blogsAtEnd.map((r) => r.title);
+    const contents = blogsAtEnd.map((r) => r.title)
 
-    expect(contents).not.toContain(blogToDelete.title);
-  });
-});
+    expect(contents).not.toContain(blogToDelete.title)
+  })
+})
 
 afterAll(() => {
   mongoose.connection.close();
