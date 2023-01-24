@@ -24,7 +24,6 @@ blogRouter.delete('/:id', async (request, response) => {
   response.status(204).end();
 });
 
-// 4.14 already added
 blogRouter.put('/:id', async (request, response) => {
   const likes = request.body;
   const id = request.params.id;
