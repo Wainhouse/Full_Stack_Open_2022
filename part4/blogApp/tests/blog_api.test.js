@@ -15,7 +15,7 @@ beforeEach(async () => {
   await Promise.all(promiseArray);
 });
 
-describe('when there is initially some blogs saved', () => {
+describe('when there is some blogs saved', () => {
   test('blogs are returned as json', async () => {
     await api
       .get('/api/blogs')
